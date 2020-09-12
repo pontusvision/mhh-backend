@@ -2,7 +2,7 @@
   "name": "mhh-backend",
   "version": "1.0.0",
   "description": "backend for mhh",
-  "main": "dist/srs-ts/app.js",
+  "main": "dist/src-ts/app.js",
   "repository": "git@github.com:pontusvision/mhh-backend.git",
   "author": "Leo Martins <lmartins@pontusvision.com>",
   "license": "MIT",
