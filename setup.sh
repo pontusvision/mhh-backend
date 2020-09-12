@@ -22,15 +22,15 @@ fi
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 
 yarn install
-#yarn compile
+yarn run compile
 
-zip -qq -r api-handler.zip  node_modules built package.json yarn.lock package-lock.json
+zip  -r api-handler.zip  node_modules dist package.json yarn.lock package-lock.json
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
     --function-name ${API_NAME} \
     --runtime nodejs12.x \
-    --handler built/app.lambdaHandler \
+    --handler dist/src-ts/app.lambdaHandler \
     --memory-size 128 \
     --zip-file fileb://api-handler.zip \
     --role arn:aws:iam::123456:role/irrelevant
