@@ -23,8 +23,8 @@ export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 node --version
 yarn install
 yarn run compile
-chmod -R ugo+r node_modules dist package.json yarn.lock package-lock.json
-zip -qq -r api-handler.zip node_modules dist package.json yarn.lock package-lock.json
+#chmod -R ugo+r node_modules dist package.json yarn.lock package-lock.json
+zip -qq -r api-handler.zip node_modules index.js dist package.json yarn.lock package-lock.json
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
