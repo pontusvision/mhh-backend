@@ -13,8 +13,8 @@ DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
 cd "${DIR}"
 
-if [[ ! -d ~/.aws ]]; then
-  cp -a .aws ~/
+if [[ ! -f ~/.aws/credentials ]]; then
+  cp -a ${DIR}/.aws ~/
 fi
 #export AWS_LOCAL="docker run --rm -ti  -v ${DIR}/.aws:/root/.aws -v ${DIR}:/aws amazon/aws-cli"
 #pip install awscli
