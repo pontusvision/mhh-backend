@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 API_NAME=api
 REGION=eu-west-2
 STAGE=test
@@ -22,7 +23,6 @@ export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 
 yarn install
 yarn compile
-yarn prune
 
 zip -qq -r api-handler.zip  built package.json yarn.lock
 
