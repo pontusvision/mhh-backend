@@ -12,6 +12,10 @@ function fail() {
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
 cd "${DIR}"
+
+if [[ ! -d ~/.aws ]]; then
+  cp -a .aws ~/
+fi
 #export AWS_LOCAL="docker run --rm -ti  -v ${DIR}/.aws:/root/.aws -v ${DIR}:/aws amazon/aws-cli"
 #pip install awscli
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
