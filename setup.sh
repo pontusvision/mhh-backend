@@ -13,7 +13,7 @@ DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
 cd "${DIR}"
 #export AWS_LOCAL="docker run --rm -ti  -v ${DIR}/.aws:/root/.aws -v ${DIR}:/aws amazon/aws-cli"
-pip install awscli
+#pip install awscli
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 
 zip -r api-handler.zip lambda.js
