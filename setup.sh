@@ -29,7 +29,7 @@ zip  -r api-handler.zip  dist package.json yarn.lock package-lock.json
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
     --function-name ${API_NAME} \
-    --runtime nodejs10.x \
+    --runtime nodejs12.x \
     --handler dist/src-ts/app.lambdaHandler \
     --memory-size 128 \
     --zip-file fileb://api-handler.zip \
