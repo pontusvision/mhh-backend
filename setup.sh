@@ -20,16 +20,16 @@ fi
 #export AWS_LOCAL="docker run --rm -ti  -v ${DIR}/.aws:/root/.aws -v ${DIR}:/aws amazon/aws-cli"
 #pip install awscli
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
-
+node --version
 yarn install
 yarn run compile
 
-zip  -r api-handler.zip  node_modules dist package.json yarn.lock package-lock.json
+zip  -r api-handler.zip  dist package.json yarn.lock package-lock.json
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
     --function-name ${API_NAME} \
-    --runtime nodejs12.x \
+    --runtime nodejs10.x \
     --handler dist/src-ts/app.lambdaHandler \
     --memory-size 128 \
     --zip-file fileb://api-handler.zip \
