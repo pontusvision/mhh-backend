@@ -6,15 +6,33 @@ services:
     image: localstack/localstack
     ports:
       - "4567-4583:4567-4583"
-      - "${PORT_WEB_UI-4566}:${PORT_WEB_UI-8080}"
+      - "${EDGE_PORT:-4566}:${EDGE_PORT:-4566}"
+      #- "${PORT_WEB_UI:-4566}:${PORT_WEB_UI:-8080}"
     environment:
-      - SERVICES=${SERVICES-lambda,apigateway }
-      - DEBUG=${DEBUG- }
-      - DATA_DIR=${DATA_DIR- }
-      - PORT_WEB_UI=${PORT_WEB_UI- }
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse }
-      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+      - SERVICES=${SERVICES:-lambda,apigateway }
+      - EDGE_PORT=${EDGE_PORT:-4566}
+      - DEBUG=${DEBUG:- }
+      - DATA_DIR=${DATA_DIR:- }
+      - PORT_WEB_UI=${PORT_WEB_UI:- }
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR:-docker-reuse }
+      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY:-0.0}
       - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEFAULT_REGION=eu-west-2
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
 
+#  deploylambda:
+#    build: ./deploy-lambda
+#    container_name: deploylambda
+#    command:
+#      - "postgres"
+#      - "-c"
+#      - "logging_collector=on"
+#      - "-c"
+#      - "log_statement=all"
+#      - "-c"
+#      - "log_min_messages=DEBUG1"
+#      - "-c"
+#      - "log_min_error_statement=DEBUG1"
+#      - "-c"
+#      - "log_temp_files=0"
