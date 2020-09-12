@@ -24,7 +24,7 @@ yarn install
 yarn compile
 yarn prune
 
-zip -r api-handler.zip  built node_modules package.json yarn.lock
+zip -qq -r api-handler.zip  built package.json yarn.lock
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
