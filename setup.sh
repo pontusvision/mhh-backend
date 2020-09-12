@@ -22,7 +22,7 @@ fi
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 
 yarn install
-yarn compile
+#yarn compile
 
 zip -qq -r api-handler.zip  node_modules built package.json yarn.lock package-lock.json
 
