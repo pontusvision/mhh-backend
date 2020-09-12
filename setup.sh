@@ -20,13 +20,17 @@ fi
 #pip install awscli
 export AWS_LOCAL="aws --endpoint-url=http://localhost:4566"
 
-zip -r api-handler.zip lambda.js
+yarn install
+yarn compile
+yarn prune
+
+zip -r api-handler.zip  built node_modules package.json yarn.lock
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
     --function-name ${API_NAME} \
-    --runtime nodejs8.10 \
-    --handler lambda.apiHandler \
+    --runtime nodejs12.x \
+    --handler built/app.lambdaHandler \
     --memory-size 128 \
     --zip-file fileb://api-handler.zip \
     --role arn:aws:iam::123456:role/irrelevant
@@ -60,9 +64,18 @@ ${AWS_LOCAL} apigateway put-method \
     --resource-id ${RESOURCE_ID} \
     --http-method GET \
     --request-parameters "method.request.path.somethingId=true" \
-    --authorization-type "NONE" \
+    --authorization-type "NONE" 
 
 [ $? == 0 ] || fail 4 "Failed: AWS / apigateway / put-method"
+
+${AWS_LOCAL} apigateway put-method \
+    --region ${REGION} \
+    --rest-api-id ${API_ID} \
+    --resource-id ${RESOURCE_ID} \
+    --http-method POST \
+    --authorization-type "NONE" 
+
+[ $? == 0 ] || fail 5 "Failed: AWS / apigateway / put-method"
 
 ${AWS_LOCAL} apigateway put-integration \
     --region ${REGION} \
@@ -70,20 +83,32 @@ ${AWS_LOCAL} apigateway put-integration \
     --resource-id ${RESOURCE_ID} \
     --http-method GET \
     --type AWS_PROXY \
+    --integration-http-method GET \
+    --uri arn:aws:apigateway:${REGION}:lambda:path/2015-03-31/functions/${LAMBDA_ARN}/invocations \
+    --passthrough-behavior WHEN_NO_MATCH 
+
+[ $? == 0 ] || fail 6 "Failed: AWS / apigateway / put-integration"
+
+${AWS_LOCAL} apigateway put-integration \
+    --region ${REGION} \
+    --rest-api-id ${API_ID} \
+    --resource-id ${RESOURCE_ID} \
+    --http-method POST \
+    --type AWS_PROXY \
     --integration-http-method POST \
     --uri arn:aws:apigateway:${REGION}:lambda:path/2015-03-31/functions/${LAMBDA_ARN}/invocations \
-    --passthrough-behavior WHEN_NO_MATCH \
+    --passthrough-behavior WHEN_NO_MATCH 
 
-[ $? == 0 ] || fail 5 "Failed: AWS / apigateway / put-integration"
+[ $? == 0 ] || fail 7 "Failed: AWS / apigateway / put-integration"
 
 ${AWS_LOCAL} apigateway create-deployment \
     --region ${REGION} \
     --rest-api-id ${API_ID} \
-    --stage-name ${STAGE} \
+    --stage-name ${STAGE} 
 
-[ $? == 0 ] || fail 6 "Failed: AWS / apigateway / create-deployment"
+[ $? == 0 ] || fail 8 "Failed: AWS / apigateway / create-deployment"
 
-ENDPOINT=http://localhost:4566/restapis/${API_ID}/${STAGE}/_user_request_/HowMuchIsTheFish
+ENDPOINT=http://localhost:4567/restapis/${API_ID}/${STAGE}/_user_request_/HowMuchIsTheFish
 
 echo "API available at: ${ENDPOINT}"
 
