@@ -24,7 +24,8 @@ node --version
 yarn install
 yarn run compile
 #chmod -R ugo+r node_modules dist package.json yarn.lock package-lock.json
-zip -qq -r api-handler.zip dist package.json yarn.lock package-lock.json
+zip -qq -r  api-handler.zip . 
+# dist package.json yarn.lock package-lock.json
 
 ${AWS_LOCAL} lambda create-function \
     --region ${REGION} \
