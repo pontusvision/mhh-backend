@@ -111,7 +111,7 @@ ${AWS_LOCAL} apigateway create-deployment \
 ENDPOINT=http://localhost:4567/restapis/${API_ID}/${STAGE}/_user_request_/HowMuchIsTheFish
 
 echo "API available at: ${ENDPOINT}"
-
+curl --version
 echo "Testing GET:"
 curl -i ${ENDPOINT}
 
