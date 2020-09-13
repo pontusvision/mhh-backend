@@ -4,11 +4,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      #- uses: actions/checkout@v2
       #- name: pull latest localstack
         #run: docker-compose pull localstack
       - name: start localstack
-        run: docker-compose up -d 
+        run: |
+          mkdir /tmp/localstack/
+          chmod 755 /tmp/localstack
+          docker-compose up -d 
+          
       #- name: build docker image for build
         #run: docker build --tag setup .
       - name: deploy and test lambda
