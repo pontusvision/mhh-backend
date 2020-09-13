@@ -4,10 +4,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       #- name: pull latest localstack
         #run: docker-compose pull localstack
       - name: start localstack
+        env:
+          HOST_TMP_FOLDER: tmp  
         run: |
           pwd
           mkdir /tmp/localstack/
@@ -16,6 +18,10 @@ jobs:
           
       #- name: build docker image for build
         #run: docker build --tag setup .
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
       - name: deploy and test lambda
         run: ./setup.sh
         #run: docker run --network container:localstack  setup 
