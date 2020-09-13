@@ -5,13 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build the stack
-        run: 
-          - docker-compose pull localstack/localstack
-          - docker-compose up -d 
-      - name: docker
+      - name: pull latest localstack
+        run: docker-compose pull localstack/localstack
+      - name: start localstack
+        run: docker-compose up -d 
+      - name: build docker image for build
         run: docker build --tag setup .
-      - name: Setup
+      - name: deploy and test lambda
         run: docker run --network container:localstack  setup 
 
       #- name: Test
