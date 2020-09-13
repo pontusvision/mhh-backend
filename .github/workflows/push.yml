@@ -9,6 +9,7 @@ jobs:
         #run: docker-compose pull localstack
       - name: start localstack
         run: |
+          pwd
           mkdir /tmp/localstack/
           chmod 755 /tmp/localstack
           docker-compose up -d 
