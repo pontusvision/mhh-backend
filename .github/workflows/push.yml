@@ -5,14 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: pull latest localstack
-        run: docker-compose pull localstack
+      #- name: pull latest localstack
+        #run: docker-compose pull localstack
       - name: start localstack
         run: docker-compose up -d 
-      - name: build docker image for build
-        run: docker build --tag setup .
+      #- name: build docker image for build
+        #run: docker build --tag setup .
       - name: deploy and test lambda
-        run: docker run --network container:localstack  setup 
+        run: ./setup.sh
+        #run: docker run --network container:localstack  setup 
+      
 
       #- name: Test
         #run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
