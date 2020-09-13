@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: pull latest localstack
-        run: docker-compose pull localstack/localstack
+        run: docker-compose pull localstack
       - name: start localstack
         run: docker-compose up -d 
       - name: build docker image for build
