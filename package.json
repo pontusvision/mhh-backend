@@ -10,7 +10,9 @@
   "scripts": {
     "compile": "tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.28.0"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.62",
     "@types/node": "^14.10.1",
